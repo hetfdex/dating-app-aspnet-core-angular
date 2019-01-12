@@ -20,7 +20,9 @@
             "tsConfig": "src/tsconfig.app.json",
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": ["src/styles.css"],
-            "scripts": []
+            "scripts": [
+              "node_modules/alertifyjs/build/alertify.js"
+            ]
           },
           "configurations": {
             "production": {
