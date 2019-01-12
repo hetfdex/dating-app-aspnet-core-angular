@@ -24,7 +24,7 @@ namespace DatingApp.API.Data
             user.PasswordSalt = passwordSalt;
 
             await context.Users.AddAsync(user);
-            
+
             await context.SaveChangesAsync();
 
             return user;
@@ -61,7 +61,7 @@ namespace DatingApp.API.Data
             {
                 passwordSalt = hmac.Key;
 
-                passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));   
+                passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
             }
         }
 
@@ -73,8 +73,8 @@ namespace DatingApp.API.Data
 
                 for (int i = 0; i < computedHash.Length; i++)
                 {
-                    if(computedHash[i] != passwordHash[i])
-                    return false;
+                    if (computedHash[i] != passwordHash[i])
+                        return false;
                 }
             }
             return true;
