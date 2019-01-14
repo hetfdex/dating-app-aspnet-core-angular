@@ -1,3 +1,4 @@
+using System.Linq;
 using AutoMapper;
 using DatingApp.API.Dto;
 using DatingApp.API.Models;
@@ -8,8 +9,17 @@ namespace DatingApp.API.Helpers
     {
         public AutoMapperProfiles()
         {
-            CreateMap<User, GetUsersDto>();
-            CreateMap<User, GetUserDto>();
+            CreateMap<User, GetUsersDto>().ForMember(destination => destination.PhotoUrl, options => {
+                options.MapFrom(source => source.Photos.FirstOrDefault(p => p.IsMain).Url);
+            }).ForMember(destination => destination.Age, options => {
+                options.MapFrom(date => date.DOB.CalculateAge());
+            });
+            CreateMap<User, GetUserDto>().ForMember(destination => destination.PhotoUrl, options => {
+                options.MapFrom(source => source.Photos.FirstOrDefault(p => p.IsMain).Url);
+            }).ForMember(destination => destination.Age, options => {
+                options.MapFrom(date => date.DOB.CalculateAge());
+            });
+            CreateMap<Photo, GetUserPhotosDto>();
         }
     }
 }

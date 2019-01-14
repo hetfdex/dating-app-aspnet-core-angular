@@ -32,6 +32,6 @@ namespace DatingApp.API.Dto
 
         public DateTime LastActive { get; set; }
 
-        public ICollection<Photo> Photos { get; set; }
+        public ICollection<GetUserPhotosDto> Photos { get; set; }
     }
 }
