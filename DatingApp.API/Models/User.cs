@@ -1,13 +1,39 @@
+using System;
+using System.Collections.Generic;
+
 namespace DatingApp.API.Models
 {
     public class User
     {
-        //Create public id
         public int Id { get; set; }
+
+        public int PublicId { get; set; }
 
         public string Username { get; set; }
 
+        public string Alias { get; set; }
+
+        public string Gender { get; set; }
+
+        public string City { get; set; }
+
+        public string Country { get; set; }
+
+        public string Bio { get; set; }
+
+        public string LookingFor { get; set; }
+
+        public string Hobbies { get; set; }
+
         public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }
+
+        public DateTime DOB { get; set; }
+
+        public DateTime Created { get; set; }
+
+        public DateTime LastActive { get; set; }
+
+        public ICollection<Photo> Photos { get; set; }
     }
 }
