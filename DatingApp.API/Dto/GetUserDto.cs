@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
+using DatingApp.API.Models;
 
-namespace DatingApp.API.Models
+namespace DatingApp.API.Dto
 {
-    public class User
+    public class GetUserDto
     {
         public int Id { get; set; }
 
@@ -23,10 +24,9 @@ namespace DatingApp.API.Models
 
         public string Hobbies { get; set; }
 
-        public byte[] PasswordHash { get; set; }
-        public byte[] PasswordSalt { get; set; }
+        public string PhotoUrl { get; set; }
 
-        public DateTime DOB { get; set; }
+        public int Age { get; set; }
 
         public DateTime Created { get; set; }
 

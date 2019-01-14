@@ -67,8 +67,6 @@ namespace DatingApp.API.Migrations
 
                     b.Property<byte[]>("PasswordSalt");
 
-                    b.Property<int>("PublicId");
-
                     b.Property<string>("Username");
 
                     b.HasKey("Id");
