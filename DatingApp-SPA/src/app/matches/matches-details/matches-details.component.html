@@ -1,5 +1,8 @@
 <div class="container mt-4">
   <div class="row">
+    <h1>{{user.alias}}'s Profile</h1>
+  </div>
+  <div class="row">
     <div class="col-sm-4">
       <div class="card">
         <img class="card-img-top img-thumbnail" src="{{user.photoUrl}}" alt="{{user.alias}}">
@@ -32,7 +35,7 @@
     <div class="col-sm-8">
       <div class="tab-panel">
         <tabset class="matches-tabset">
-          <tab heading="About {{user.alias}}">
+          <tab heading="About">
             <h4>Bio:</h4>
             <p>{{user.bio}}</p>
             <h4>Looking For:</h4>
@@ -43,7 +46,7 @@
               <p>{{user.hobbies}}</p>
           </tab>
           <tab heading="Photos">
-              <h4>Photos</h4>
+              <ngx-gallery [options]="galleryOptions" [images]="galleryImages"></ngx-gallery>
           </tab>
           <tab heading="Message">
               <h4>Messages</h4>
