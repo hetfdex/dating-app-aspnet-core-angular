@@ -22,6 +22,8 @@ import { UserService } from './services/user.service';
 import { MatchesListComponent } from './matches/matches-list/matches-list.component';
 import { MatchesCardComponent } from './matches/matches-card/matches-card.component';
 import { MatchesDetailsComponent } from './matches/matches-details/matches-details.component';
+import { MatchesDetailsResolver } from './resolvers/matches-details.resolver';
+import { MatchesListResolver } from './resolvers/matches-list.resolver';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -60,7 +62,9 @@ export function tokenGetter() {
       ErrorInterceptorProvider,
       AlertifyService,
       AuthGuard,
-      UserService
+      UserService,
+      MatchesDetailsResolver,
+      MatchesListResolver
    ],
    bootstrap: [
       AppComponent

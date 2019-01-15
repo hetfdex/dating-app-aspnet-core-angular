@@ -5,12 +5,14 @@ import { MessagesComponent } from './messages/messages.component';
 import { AuthGuard } from './guards/auth.guard';
 import { MatchesListComponent } from './matches/matches-list/matches-list.component';
 import { MatchesDetailsComponent } from './matches/matches-details/matches-details.component';
+import { MatchesDetailsResolver } from './resolvers/matches-details.resolver';
+import { MatchesListResolver } from './resolvers/matches-list.resolver';
 
 export const appRoutes: Routes = [
     { path: '', component: HomeComponent },
     { path: '', runGuardsAndResolvers: 'always', canActivate: [AuthGuard], children: [
-        { path: 'matches', component: MatchesListComponent },
-        { path: 'matches/:id', component: MatchesDetailsComponent },
+        { path: 'matches', component: MatchesListComponent, resolve: {users: MatchesListResolver} },
+        { path: 'matches/:id', component: MatchesDetailsComponent, resolve: {user: MatchesDetailsResolver} },
         { path: 'connections', component: ConnectionsComponent },
         { path: 'messages', component: MessagesComponent }
     ]},
