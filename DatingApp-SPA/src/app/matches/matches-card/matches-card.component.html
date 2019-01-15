@@ -1,3 +1,9 @@
-<p>
-  matches-card works!
-</p>
+<div class="card mb-4">
+  <div class="card-img-wrapper">
+    <img class="card-img-top" src="{{user.photoUrl}}" alt="{{user.alias}}">
+  </div>
+  <div class="card-body p-1">
+    <h6 class="card-title text-center mb-1"><i class="fa fa-user"></i>{{user.alias}}, {{user.age}}</h6>
+    <p class="card-text text-center text-muted">{{user.city}}</p>
+  </div>
+</div>
