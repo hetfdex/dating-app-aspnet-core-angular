@@ -3,3 +3,49 @@
 @import '../node_modules/font-awesome/css/font-awesome.min.css';
 @import '../node_modules/alertifyjs/build/css/alertify.min.css';
 @import '../node_modules/alertifyjs/build/css/themes/bootstrap.min.css';
+
+.tab-panel {
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 4px;
+  }
+  
+  .nav-tabs > li.open, .matches-tabset > .nav-tabs > li:hover {
+    border-bottom: 4px solid #cdfbdf;
+  }
+  
+  .matches-tabset > .nav-tabs > li.open > a, .matches-tabset > .nav-tabs > li:hover > a {
+    border: 0;
+    background: none !important;
+    color: #333333;
+  }
+  
+  .matches-tabset > .nav-tabs > li.open > a > i, .matches-tabset > .nav-tabs > li:hover > a > i {
+    color: #a6a6a6;
+  }
+  
+  .matches-tabset > .nav-tabs > li.open .dropdown-menu, .matches-tabset > .nav-tabs > li:hover .dropdown-menu {
+    margin-top: 0px;
+  }
+  
+  .matches-tabset > .nav-tabs > li.active {
+    border-bottom: 4px solid rgb(32, 233, 173);
+    position: relative;
+  }
+  
+  .matches-tabset > .nav-tabs > li.active > a {
+    border: 0 !important;
+    color: #333333;
+  }
+  
+  .matches-tabset > .nav-tabs > li.active > a > i {
+    color: #404040;
+  }
+  
+  .matches-tabset > .tab-content {
+    margin-top: -3px;
+    background-color: #fff;
+    border: 0;
+    border-top: 1px solid #eee;
+    padding: 15px 0;
+  }

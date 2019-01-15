@@ -1,3 +1,55 @@
-<p>
-  {{user?.alias}}
-</p>
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="card">
+        <img class="card-img-top img-thumbnail" src="{{user?.photoUrl}}" alt="{{user?.alias}}">
+        <div class="card-body">
+          <div>
+            <strong>Location:</strong>
+            <p>{{user?.city}}, {{user?.country}}</p>
+          </div>
+          <div>
+              <strong>Age:</strong>
+              <p>{{user?.age}}</p>
+          </div>
+          <div>
+              <strong>Last Active:</strong>
+              <p>{{user?.lastActive}}</p>
+          </div>
+          <div>
+              <strong>Member since:</strong>
+              <p>{{user?.created}}</p>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="btn-group d-flex">
+            <button class="btn btn-primary w-100">Like</button>
+            <button class="btn btn-info w-100">Message</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-8">
+      <div class="tab-panel">
+        <tabset class="matches-tabset">
+          <tab heading="About {{user?.alias}}">
+            <h4>Bio:</h4>
+            <p>{{user?.bio}}</p>
+            <h4>Looking For:</h4>
+            <p>{{user?.lookingFor}}</p>
+          </tab>
+          <tab heading="Hobbies">
+              <h4>Hobbies:</h4>
+              <p>{{user?.hobbies}}</p>
+          </tab>
+          <tab heading="Photos">
+              <h4>Photos</h4>
+          </tab>
+          <tab heading="Message">
+              <h4>Messages</h4>
+          </tab>
+        </tabset>
+      </div>
+    </div>
+  </div>
+</div>
