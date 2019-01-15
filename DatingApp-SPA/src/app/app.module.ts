@@ -8,16 +8,18 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
-import { AuthService } from './services/Auth.service';
+import { AuthService } from './services/auth.service';
 import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
 import { ErrorInterceptorProvider } from './services/error.interceptor';
 import { AlertifyService } from './services/alertify.service';
 import { MessagesComponent } from './messages/messages.component';
 import { ConnectionsComponent } from './connections/connections.component';
-import { MatchesComponent } from './matches/matches.component';
 import { appRoutes } from './routes';
 import { AuthGuard } from './guards/auth.guard';
+import { UserService } from './services/user.service';
+import { MatchesListComponent } from './matches/matches-list/matches-list.component';
+import { MatchesCardComponent } from './matches/matches-card/matches-card.component';
 
 @NgModule({
    declarations: [
@@ -27,7 +29,8 @@ import { AuthGuard } from './guards/auth.guard';
       RegisterComponent,
       MessagesComponent,
       ConnectionsComponent,
-      MatchesComponent
+      MatchesListComponent,
+      MatchesCardComponent
    ],
    imports: [
       BrowserModule,
@@ -41,7 +44,8 @@ import { AuthGuard } from './guards/auth.guard';
       AuthService,
       ErrorInterceptorProvider,
       AlertifyService,
-      AuthGuard
+      AuthGuard,
+      UserService
    ],
    bootstrap: [
       AppComponent
