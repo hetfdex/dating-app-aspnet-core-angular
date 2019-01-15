@@ -4,11 +4,13 @@ import { ConnectionsComponent } from './connections/connections.component';
 import { MessagesComponent } from './messages/messages.component';
 import { AuthGuard } from './guards/auth.guard';
 import { MatchesListComponent } from './matches/matches-list/matches-list.component';
+import { MatchesDetailsComponent } from './matches/matches-details/matches-details.component';
 
 export const appRoutes: Routes = [
     { path: '', component: HomeComponent },
     { path: '', runGuardsAndResolvers: 'always', canActivate: [AuthGuard], children: [
         { path: 'matches', component: MatchesListComponent },
+        { path: 'matches/:id', component: MatchesDetailsComponent },
         { path: 'connections', component: ConnectionsComponent },
         { path: 'messages', component: MessagesComponent }
     ]},

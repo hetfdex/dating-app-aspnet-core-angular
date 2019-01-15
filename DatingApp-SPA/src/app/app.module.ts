@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { JwtModule } from '@auth0/angular-jwt';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -20,6 +21,11 @@ import { AuthGuard } from './guards/auth.guard';
 import { UserService } from './services/user.service';
 import { MatchesListComponent } from './matches/matches-list/matches-list.component';
 import { MatchesCardComponent } from './matches/matches-card/matches-card.component';
+import { MatchesDetailsComponent } from './matches/matches-details/matches-details.component';
+
+export function tokenGetter() {
+   return localStorage.getItem('token');
+}
 
 @NgModule({
    declarations: [
@@ -30,7 +36,8 @@ import { MatchesCardComponent } from './matches/matches-card/matches-card.compon
       MessagesComponent,
       ConnectionsComponent,
       MatchesListComponent,
-      MatchesCardComponent
+      MatchesCardComponent,
+      MatchesDetailsComponent
    ],
    imports: [
       BrowserModule,
@@ -38,7 +45,14 @@ import { MatchesCardComponent } from './matches/matches-card/matches-card.compon
       HttpClientModule,
       FormsModule,
       BsDropdownModule.forRoot(),
-      RouterModule.forRoot(appRoutes)
+      RouterModule.forRoot(appRoutes),
+      JwtModule.forRoot({
+         config: {
+            tokenGetter: tokenGetter,
+            whitelistedDomains: ['localhost:5000'],
+            blacklistedRoutes: ['localhost:5000/api/auth']
+         }
+      })
    ],
    providers: [
       AuthService,
