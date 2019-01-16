@@ -3,6 +3,8 @@ import { User } from 'src/app/models/user';
 import { ActivatedRoute } from '@angular/router';
 import { AlertifyService } from 'src/app/services/alertify.service';
 import { NgForm } from '@angular/forms';
+import { UserService } from 'src/app/services/user.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-matches-edit',
@@ -13,7 +15,8 @@ export class MatchesEditComponent implements OnInit {
   @ViewChild('editForm') editForm: NgForm;
   user: User;
 
-  constructor(private route: ActivatedRoute, private altertify: AlertifyService) { }
+  constructor(private route: ActivatedRoute, private altertify: AlertifyService,
+    private userService: UserService, private authService: AuthService) { }
 
   ngOnInit() {
     this.route.data.subscribe(data => {
@@ -22,9 +25,13 @@ export class MatchesEditComponent implements OnInit {
   }
 
   updateUser() {
-    this.altertify.success('Profile Updated');
+    this.userService.updateUser(this.authService.decodedToken.nameid, this.user).subscribe(next => {
+      this.altertify.success('Profile Updated');
 
-    this.editForm.reset(this.user);
+      this.editForm.reset(this.user);
+    }, error => {
+      this.altertify.error(error);
+    });
   }
 
   @HostListener('window:beforeunload', ['$event'])

@@ -14,12 +14,16 @@ namespace DatingApp.API.Helpers
             }).ForMember(destination => destination.Age, options => {
                 options.MapFrom(date => date.DOB.CalculateAge());
             });
+            
             CreateMap<User, GetUserDto>().ForMember(destination => destination.PhotoUrl, options => {
                 options.MapFrom(source => source.Photos.FirstOrDefault(p => p.IsMain).Url);
             }).ForMember(destination => destination.Age, options => {
                 options.MapFrom(date => date.DOB.CalculateAge());
             });
+            
             CreateMap<Photo, GetUserPhotosDto>();
+
+            CreateMap<UpdateUserDto, User>();
         }
     }
 }
