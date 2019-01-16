@@ -108,7 +108,7 @@ namespace DatingApp.API.Controllers
             }
 
             var currentMainPhoto = await repository.GetMainPhoto(userId);
-
+            
             currentMainPhoto.IsMain = false;
 
             photo.IsMain = true;
