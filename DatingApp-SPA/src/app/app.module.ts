@@ -28,6 +28,7 @@ import { MatchesListResolver } from './resolvers/matches-list.resolver';
 import { MatchesEditComponent } from './matches/matches-edit/matches-edit.component';
 import { MatchesEditResolver } from './resolvers/matches-edit.resolver';
 import { PreventUnsavedChangesGuard } from './guards/prevent-unsaved-changes.guard';
+import { PhotoEditorComponent } from './matches/photo-editor/photo-editor.component';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -44,7 +45,8 @@ export function tokenGetter() {
       MatchesListComponent,
       MatchesCardComponent,
       MatchesDetailsComponent,
-      MatchesEditComponent
+      MatchesEditComponent,
+      PhotoEditorComponent
    ],
    imports: [
       BrowserModule,
