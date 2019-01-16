@@ -87,5 +87,38 @@ namespace DatingApp.API.Controllers
             }
             return BadRequest("Add photo failure");
         }
+
+        [HttpPost("{photoId}/setMain")]
+        public async Task<IActionResult> SetMainPhoto(int userId, int photoId)
+        {
+            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) {
+                return Unauthorized();
+            }
+
+            var user = await repository.GetUser(userId);
+
+            if (!user.Photos.Any(p => p.Id == photoId)) {
+                return Unauthorized();
+            }
+
+            var photo = await repository.GetPhoto(photoId);
+
+            if (photo.IsMain) {
+                return BadRequest("Photo is already main");
+            }
+
+            var currentMainPhoto = await repository.GetMainPhoto(userId);
+
+            currentMainPhoto.IsMain = false;
+
+            photo.IsMain = true;
+
+            if (await repository.SaveAll()) {
+                var result = mapper.Map<GetPhotoDto>(photo);
+
+                return NoContent();
+            }
+            return BadRequest("Set main photo failure");
+        }
     }
 }
