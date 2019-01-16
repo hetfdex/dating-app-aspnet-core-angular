@@ -1,6 +1,7 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { AlertifyService } from '../services/alertify.service';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-register',
@@ -8,6 +9,8 @@ import { AlertifyService } from '../services/alertify.service';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
+  @ViewChild('registerForm') registerForm: NgForm;
+  
   @Output() cancelRegister = new EventEmitter();
 
   model: any = {};
@@ -20,6 +23,8 @@ export class RegisterComponent implements OnInit {
   register() {
     this.authService.resgister(this.model).subscribe(() => {
       this.alertify.success('Registration: Successfull');
+
+      this.registerForm.reset();
     }, error => {
       this.alertify.error(error);
     });
@@ -27,5 +32,7 @@ export class RegisterComponent implements OnInit {
 
   cancel() {
     this.cancelRegister.emit();
+
+    this.registerForm.reset();
   }
 }

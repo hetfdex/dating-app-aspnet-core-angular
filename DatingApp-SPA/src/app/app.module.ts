@@ -25,6 +25,8 @@ import { MatchesCardComponent } from './matches/matches-card/matches-card.compon
 import { MatchesDetailsComponent } from './matches/matches-details/matches-details.component';
 import { MatchesDetailsResolver } from './resolvers/matches-details.resolver';
 import { MatchesListResolver } from './resolvers/matches-list.resolver';
+import { MatchesEditComponent } from './matches/matches-edit/matches-edit.component';
+import { MatchesEditResolver } from './resolvers/matches-edit.resolver';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -40,7 +42,8 @@ export function tokenGetter() {
       ConnectionsComponent,
       MatchesListComponent,
       MatchesCardComponent,
-      MatchesDetailsComponent
+      MatchesDetailsComponent,
+      MatchesEditComponent
    ],
    imports: [
       BrowserModule,
@@ -66,7 +69,8 @@ export function tokenGetter() {
       AuthGuard,
       UserService,
       MatchesDetailsResolver,
-      MatchesListResolver
+      MatchesListResolver,
+      MatchesEditResolver
    ],
    bootstrap: [
       AppComponent
