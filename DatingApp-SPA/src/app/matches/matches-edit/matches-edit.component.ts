@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
 import { User } from 'src/app/models/user';
 import { ActivatedRoute } from '@angular/router';
 import { AlertifyService } from 'src/app/services/alertify.service';
@@ -25,5 +25,12 @@ export class MatchesEditComponent implements OnInit {
     this.altertify.success('Profile Updated');
 
     this.editForm.reset(this.user);
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  unloadNotification($event: any) {
+    if (this.editForm.dirty) {
+      $event.returnValue = true;
+    }
   }
 }

@@ -9,12 +9,14 @@ import { MatchesDetailsResolver } from './resolvers/matches-details.resolver';
 import { MatchesListResolver } from './resolvers/matches-list.resolver';
 import { MatchesEditComponent } from './matches/matches-edit/matches-edit.component';
 import { MatchesEditResolver } from './resolvers/matches-edit.resolver';
+import { PreventUnsavedChangesGuard } from './guards/prevent-unsaved-changes.guard';
 
 export const appRoutes: Routes = [
     { path: '', component: HomeComponent },
     { path: '', runGuardsAndResolvers: 'always', canActivate: [AuthGuard], children: [
         { path: 'matches', component: MatchesListComponent, resolve: {users: MatchesListResolver} },
-        { path: 'matches/edit', component: MatchesEditComponent, resolve: {user: MatchesEditResolver} },
+        { path: 'matches/edit', component: MatchesEditComponent, resolve: {user: MatchesEditResolver},
+        canDeactivate: [PreventUnsavedChangesGuard] },
         { path: 'matches/:id', component: MatchesDetailsComponent, resolve: {user: MatchesDetailsResolver} },
         { path: 'connections', component: ConnectionsComponent },
         { path: 'messages', component: MessagesComponent }
