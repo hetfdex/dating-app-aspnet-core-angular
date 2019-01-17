@@ -28,11 +28,11 @@ login(model: any) {
 
       if (user) {
         localStorage.setItem('token', user.token);
-        localStorage.setItem('userPhotoUrl', user.userPhotoUrl.result);
+        localStorage.setItem('userPhotoUrl', user.userPhotoUrl);
 
         this.decodedToken = this.jwtHelper.decodeToken(user.token);
 
-        this.updatePhoto(user.userPhotoUrl.result);
+        this.updatePhoto(user.userPhotoUrl);
       }
     })
   );

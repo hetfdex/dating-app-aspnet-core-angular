@@ -1,10 +1,8 @@
-using System;
 using System.Threading.Tasks;
 using System.Text;
 using System.Security.Cryptography;
 using DatingApp.API.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 
 namespace DatingApp.API.Data
 {
@@ -81,13 +79,6 @@ namespace DatingApp.API.Data
                 }
             }
             return true;
-        }
-
-        public async Task<string> GetMainPhotoUrl(User user)
-        {
-            var mainPhoto = await context.Photos.Where(u => u.UserId == user.Id).FirstOrDefaultAsync(p => p.IsMain);
-            
-            return mainPhoto.Url;
         }
     }
 }

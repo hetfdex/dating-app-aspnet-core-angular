@@ -22,9 +22,9 @@ namespace DatingApp.API.Controllers
         private readonly IDatingRepository repository;
 
         private readonly IMapper mapper;
-        
+
         private readonly IOptions<CloudinarySettings> cloudinarySettings;
-        
+
         private Cloudinary cloudinary;
 
         public PhotosController(IDatingRepository repository, IMapper mapper, IOptions<CloudinarySettings> cloudinarySettings)
@@ -131,5 +131,28 @@ namespace DatingApp.API.Controllers
             }
             return BadRequest("Set main photo failure");
         }
+
+        /* [HttpDelete("{photoId}")]
+        public async Task<IActionResult> DeletePhoto(int userId, int photoId)
+        {
+            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+            {
+                return Unauthorized();
+            }
+
+            var user = await repository.GetUser(userId);
+
+            if (!user.Photos.Any(p => p.Id == photoId))
+            {
+                return Unauthorized();
+            }
+
+            var photo = await repository.GetPhoto(photoId);
+
+            if (photo.IsMain)
+            {
+                return BadRequest("Cannot delete main photo");
+            }
+        } */
     }
 }

@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -81,7 +83,7 @@ namespace DatingApp.API.Controllers
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
-            var userPhotoUrl = repository.GetMainPhotoUrl(user);
+            var userPhotoUrl = user.Photos.FirstOrDefault(p => p.IsMain).Url;
 
             return Ok(new
             {
