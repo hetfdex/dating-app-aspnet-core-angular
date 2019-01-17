@@ -19,14 +19,14 @@ export class MatchesEditComponent implements OnInit {
   photoUrl: string;
 
   constructor(private route: ActivatedRoute, private altertify: AlertifyService,
-    private userService: UserService, private authService: AuthService) { }
+    private userService: UserService, private authService: AuthService) {}
 
   ngOnInit() {
     this.route.data.subscribe(data => {
       this.user = data['user'];
     });
 
-    this.authService.photoUrl.subscribe(photoUrl => this.photoUrl = photoUrl);
+    this.authService.currentPhotoUrl.subscribe(photoUrl => this.photoUrl = photoUrl);
   }
 
   updateUser() {

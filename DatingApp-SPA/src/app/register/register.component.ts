@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
+import { Component, Output, EventEmitter, ViewChild } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { AlertifyService } from '../services/alertify.service';
 import { NgForm } from '@angular/forms';
@@ -8,17 +8,14 @@ import { NgForm } from '@angular/forms';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent {
   @ViewChild('registerForm') registerForm: NgForm;
-  
+
   @Output() cancelRegister = new EventEmitter();
 
   model: any = {};
 
   constructor(private authService: AuthService, private alertify: AlertifyService) { }
-
-  ngOnInit() {
-  }
 
   register() {
     this.authService.resgister(this.model).subscribe(() => {

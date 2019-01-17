@@ -7,9 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ConnectionsComponent implements OnInit {
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

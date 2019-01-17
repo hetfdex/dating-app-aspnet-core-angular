@@ -16,10 +16,10 @@ namespace DatingApp.API.Helpers
         {
             var age = DateTime.Today.Year - dateTime.Year;
 
-            if (dateTime.AddYears(age)> DateTime.Today) {
+            if (dateTime.AddYears(age) > DateTime.Today)
+            {
                 age--;
             }
-
             return age;
         }
     }

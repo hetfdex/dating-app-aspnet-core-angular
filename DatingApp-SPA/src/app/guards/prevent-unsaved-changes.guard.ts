@@ -4,6 +4,7 @@ import { MatchesEditComponent } from '../matches/matches-edit/matches-edit.compo
 
 @Injectable()
 export class PreventUnsavedChangesGuard implements CanDeactivate<MatchesEditComponent> {
+
   canDeactivate(component: MatchesEditComponent) {
     if (component.editForm.dirty) {
       return window.confirm('Unsaved changes will be lost');

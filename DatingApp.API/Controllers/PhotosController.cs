@@ -20,8 +20,11 @@ namespace DatingApp.API.Controllers
     public class PhotosController : ControllerBase
     {
         private readonly IDatingRepository repository;
+
         private readonly IMapper mapper;
+        
         private readonly IOptions<CloudinarySettings> cloudinarySettings;
+        
         private Cloudinary cloudinary;
 
         public PhotosController(IDatingRepository repository, IMapper mapper, IOptions<CloudinarySettings> cloudinarySettings)
@@ -48,7 +51,8 @@ namespace DatingApp.API.Controllers
         [HttpPost]
         public async Task<IActionResult> AddPhoto(int userId, [FromForm]AddPhotoDto addPhotoDto)
         {
-            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) {
+            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+            {
                 return Unauthorized();
             }
 
@@ -58,7 +62,8 @@ namespace DatingApp.API.Controllers
 
             var imageUploadResult = new ImageUploadResult();
 
-            if (file.Length > 0) {
+            if (file.Length > 0)
+            {
                 using (var stream = file.OpenReadStream())
                 {
                     var imageUploadParams = new ImageUploadParams()
@@ -74,13 +79,15 @@ namespace DatingApp.API.Controllers
 
             var photo = mapper.Map<Photo>(addPhotoDto);
 
-            if (!user.Photos.Any(p => p.IsMain)) {
+            if (!user.Photos.Any(p => p.IsMain))
+            {
                 photo.IsMain = true;
             }
 
             user.Photos.Add(photo);
 
-            if (await repository.SaveAll()) {
+            if (await repository.SaveAll())
+            {
                 var result = mapper.Map<GetPhotoDto>(photo);
 
                 return CreatedAtRoute("GetPhoto", new { id = photo.Id }, result);
@@ -91,29 +98,33 @@ namespace DatingApp.API.Controllers
         [HttpPost("{photoId}/setMain")]
         public async Task<IActionResult> SetMainPhoto(int userId, int photoId)
         {
-            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) {
+            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+            {
                 return Unauthorized();
             }
 
             var user = await repository.GetUser(userId);
 
-            if (!user.Photos.Any(p => p.Id == photoId)) {
+            if (!user.Photos.Any(p => p.Id == photoId))
+            {
                 return Unauthorized();
             }
 
             var photo = await repository.GetPhoto(photoId);
 
-            if (photo.IsMain) {
+            if (photo.IsMain)
+            {
                 return BadRequest("Photo is already main");
             }
 
             var currentMainPhoto = await repository.GetMainPhoto(userId);
-            
+
             currentMainPhoto.IsMain = false;
 
             photo.IsMain = true;
 
-            if (await repository.SaveAll()) {
+            if (await repository.SaveAll())
+            {
                 var result = mapper.Map<GetPhotoDto>(photo);
 
                 return NoContent();

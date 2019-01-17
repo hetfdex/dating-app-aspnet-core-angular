@@ -12,10 +12,12 @@ import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from 'ngx-gal
 })
 export class MatchesDetailsComponent implements OnInit {
   user: User;
+
   galleryOptions: NgxGalleryOptions[];
+
   galleryImages: NgxGalleryImage[];
 
-  constructor(private userService: UserService, private alertify: AlertifyService, private route: ActivatedRoute) { }
+  constructor(private userService: UserService, private alertify: AlertifyService, private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.getUser();
@@ -39,7 +41,6 @@ export class MatchesDetailsComponent implements OnInit {
         preview: false
       }
     ];
-
     this.galleryImages = this.getPhotos();
   }
 

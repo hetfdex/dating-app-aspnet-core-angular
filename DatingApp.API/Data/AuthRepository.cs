@@ -4,16 +4,19 @@ using System.Text;
 using System.Security.Cryptography;
 using DatingApp.API.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace DatingApp.API.Data
 {
     public class AuthRepository : IAuthRepository
     {
         private readonly DataContext context;
+
         public AuthRepository(DataContext context)
         {
             this.context = context;
         }
+
         public async Task<User> Register(User user, string password)
         {
             byte[] passwordHash, passwordSalt;
@@ -78,6 +81,13 @@ namespace DatingApp.API.Data
                 }
             }
             return true;
+        }
+
+        public async Task<string> GetMainPhotoUrl(User user)
+        {
+            var mainPhoto = await context.Photos.Where(u => u.UserId == user.Id).FirstOrDefaultAsync(p => p.IsMain);
+            
+            return mainPhoto.Url;
         }
     }
 }

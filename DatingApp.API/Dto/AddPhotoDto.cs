@@ -7,16 +7,10 @@ namespace DatingApp.API.Dto
     {
         public string PublicId { get; set; }
         public string Url { get; set; }
-
         public string Description { get; set; }
 
         public IFormFile File { get; set; }
 
-        public DateTime Added { get; set; }
-
-        public AddPhotoDto()
-        {
-            Added = DateTime.Now;
-        }
+        public DateTime Added { get; set; } = DateTime.Now;
     }
 }

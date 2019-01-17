@@ -8,8 +8,8 @@ import { catchError } from 'rxjs/operators';
 import { AuthService } from '../services/auth.service';
 
 @Injectable()
-
 export class MatchesEditResolver implements Resolve<User> {
+
     constructor(private userService: UserService, private authService: AuthService,
         private router: Router, private altertify: AlertifyService) {}
 

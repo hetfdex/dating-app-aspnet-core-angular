@@ -9,11 +9,13 @@ namespace DatingApp.API.Data
     public class DatingRepository : IDatingRepository
     {
         private readonly DataContext context;
+
         public DatingRepository(DataContext context)
         {
             this.context = context;
 
         }
+
         public void Add<T>(T entity) where T : class
         {
             context.Add(entity);

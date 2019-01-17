@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { User } from 'src/app/models/user';
 
 @Component({
@@ -6,12 +6,8 @@ import { User } from 'src/app/models/user';
   templateUrl: './matches-card.component.html',
   styleUrls: ['./matches-card.component.css']
 })
-export class MatchesCardComponent implements OnInit {
+export class MatchesCardComponent {
   @Input() user: User;
 
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+  constructor() {}
 }

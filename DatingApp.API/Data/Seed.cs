@@ -11,6 +11,7 @@ namespace DatingApp.API.Data
     public class Seed
     {
         private readonly DataContext context;
+
         public Seed(DataContext context)
         {
             this.context = context;

@@ -18,7 +18,9 @@ namespace DatingApp.API.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuthRepository repository;
+
         private readonly IConfiguration configuration;
+        
         private readonly IMapper mapper;
 
         public AuthController(IAuthRepository repository, IConfiguration configuration, IMapper mapper)
@@ -79,12 +81,12 @@ namespace DatingApp.API.Controllers
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
-            var userData = mapper.Map<GetUserDto>(user);
+            var userPhotoUrl = repository.GetMainPhotoUrl(user);
 
             return Ok(new
             {
                 token = tokenHandler.WriteToken(token),
-                userData
+                userPhotoUrl
             });
         }
     }
