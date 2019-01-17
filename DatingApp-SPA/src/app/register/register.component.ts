@@ -19,7 +19,7 @@ export class RegisterComponent {
 
   register() {
     this.authService.resgister(this.model).subscribe(() => {
-      this.alertify.success('Registration: Successfull');
+      this.alertify.success('Registration Success');
 
       this.registerForm.reset();
     }, error => {

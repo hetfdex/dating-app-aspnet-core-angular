@@ -132,7 +132,7 @@ namespace DatingApp.API.Controllers
             return BadRequest("Set main photo failure");
         }
 
-        /* [HttpDelete("{photoId}")]
+        [HttpDelete("{photoId}")]
         public async Task<IActionResult> DeletePhoto(int userId, int photoId)
         {
             if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
@@ -153,6 +153,28 @@ namespace DatingApp.API.Controllers
             {
                 return BadRequest("Cannot delete main photo");
             }
-        } */
+
+            if (photo.PublicId != null)
+            {
+                var deletionParams = new DeletionParams(photo.PublicId);
+
+                var result = cloudinary.Destroy(deletionParams);
+
+                if (result.Result == "ok")
+                {
+                    repository.Delete(photo);
+                }
+            }
+            else
+            {
+                repository.Delete(photo);
+            }
+
+            if (await repository.SaveAll())
+            {
+                return Ok();
+            }
+            return BadRequest("Delete photo failure");
+        }
     }
 }

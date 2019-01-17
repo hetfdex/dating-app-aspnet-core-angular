@@ -22,7 +22,7 @@ namespace DatingApp.API.Controllers
         private readonly IAuthRepository repository;
 
         private readonly IConfiguration configuration;
-        
+
         private readonly IMapper mapper;
 
         public AuthController(IAuthRepository repository, IConfiguration configuration, IMapper mapper)
