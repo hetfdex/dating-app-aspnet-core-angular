@@ -13,7 +13,10 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class MatchesEditComponent implements OnInit {
   @ViewChild('editForm') editForm: NgForm;
+
   user: User;
+
+  photoUrl: string;
 
   constructor(private route: ActivatedRoute, private altertify: AlertifyService,
     private userService: UserService, private authService: AuthService) { }
@@ -22,6 +25,8 @@ export class MatchesEditComponent implements OnInit {
     this.route.data.subscribe(data => {
       this.user = data['user'];
     });
+
+    this.authService.photoUrl.subscribe(photoUrl => this.photoUrl = photoUrl);
   }
 
   updateUser() {
