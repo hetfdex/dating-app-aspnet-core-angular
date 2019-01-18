@@ -16,7 +16,7 @@ namespace DatingApp.API.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IDatingRepository repository;
-        
+
         private readonly IMapper mapper;
 
         public UsersController(IDatingRepository repository, IMapper mapper)
@@ -35,7 +35,7 @@ namespace DatingApp.API.Controllers
             return Ok(result);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetUser")]
         public async Task<IActionResult> GetUser(int id)
         {
             var user = await repository.GetUser(id);

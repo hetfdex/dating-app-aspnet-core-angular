@@ -42,14 +42,15 @@ namespace DatingApp.API.Controllers
                 return BadRequest("Username already exists");
             }
 
-            var user = new User
-            {
-                Username = registerUserDto.Username
-            };
+            Console.WriteLine(registerUserDto.Username + registerUserDto.City);
+            
+            var user = mapper.Map<User>(registerUserDto);
 
             var registeredUser = await repository.Register(user, registerUserDto.Password);
 
-            return StatusCode(201);
+            var result = mapper.Map<GetUserDto>(registeredUser);
+
+            return CreatedAtRoute("GetUser", new {controller = "Users", id = registeredUser.Id}, result);
         }
 
         [HttpPost("login")]
@@ -83,7 +84,12 @@ namespace DatingApp.API.Controllers
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
-            var userPhotoUrl = user.Photos.FirstOrDefault(p => p.IsMain).Url;
+            string userPhotoUrl = string.Empty;
+            
+            if (user.Photos.Count > 0)
+            {
+                userPhotoUrl = user.Photos.FirstOrDefault(p => p.IsMain).Url;
+            }
 
             return Ok(new
             {
