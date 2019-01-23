@@ -9,27 +9,27 @@ namespace DatingApp.API.Helpers
     public class PagedList<T> : List<T>
     {
         public int CurrentPage { get; set; }
-        public int PageSize { get; set; }
+        public int ItemsPerPage { get; set; }
         public int TotalPages { get; set; }
-        public int TotalCount { get; set; }
+        public int TotalItems { get; set; }
 
-        public PagedList(List<T> items, int currentPage, int pageSize, int totalCount)
+        public PagedList(List<T> items, int currentPage, int itemsPerPage, int totalItems)
         {
             this.CurrentPage = currentPage;
-            this.PageSize = pageSize;
-            this.TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
-            this.TotalCount = totalCount;
+            this.ItemsPerPage = ItemsPerPage;
+            this.TotalPages = (int)Math.Ceiling(totalItems / (double)ItemsPerPage);
+            this.TotalItems = totalItems;
 
             this.AddRange(items);
         }
 
-        public static async Task<PagedList<T>> CreateAsync(IQueryable<T> source, int currentPage, int pageSize)
+        public static async Task<PagedList<T>> CreateAsync(IQueryable<T> source, int currentPage, int itemsPerPage)
         {
-            var totalCount = await source.CountAsync();
+            var totalItems = await source.CountAsync();
 
-            var items = await source.Skip((currentPage - 1) * pageSize).Take(pageSize).ToListAsync();
+            var items = await source.Skip((currentPage - 1) * itemsPerPage).Take(itemsPerPage).ToListAsync();
 
-            return new PagedList<T>(items, currentPage, pageSize, totalCount);
+            return new PagedList<T>(items, currentPage, itemsPerPage, totalItems);
         }
     }
 }
