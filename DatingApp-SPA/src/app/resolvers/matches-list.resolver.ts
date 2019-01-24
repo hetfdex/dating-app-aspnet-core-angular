@@ -8,11 +8,13 @@ import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class MatchesListResolver implements Resolve<User[]> {
+    currentPage = 1;
+    itemsPerPage = 10;
 
     constructor(private userService: UserService, private router: Router, private altertify: AlertifyService) {}
 
     resolve(route: ActivatedRouteSnapshot): Observable<User[]> {
-        return this.userService.getUsers().pipe(
+        return this.userService.getUsers(this.currentPage, this.itemsPerPage).pipe(
             catchError(error => {
                 this.altertify.error('Error: Could not retrieve data');
 
