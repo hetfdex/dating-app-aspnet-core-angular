@@ -1,9 +1,9 @@
 <div class="text-center mt-3">
-  <h2>Matches: {{pagination.totalItems}}</h2>
+  <h3>Matches: {{pagination.totalItems}}</h3>
 </div>
 
 <div class="container mt-3">
-    <form class="form-inline" #form="ngForm" (ngSubmit)="loadUsers()" novalidate>
+    <form class="form-inline justify-content-center" #form="ngForm" (ngSubmit)="loadUsers()" novalidate>
         <div class="form-group">
           <label for="minAge">Age From</label>
           <input type="number" class="form-control ml-1" style="width: 70px" id="minAge" [(ngModel)]="userParams.minAge" name="minAge">
@@ -20,6 +20,12 @@
         </div>
         <button type="submit" class="btn btn-primary" style="margin-left:10px">Apply</button>
         <button type="button" class="btn btn-info" (click)="resetFilters()" style="margin-left:10px">Reset</button>
+        <div class="col">
+          <div class="btn-group float-right">
+            <button type="buton" name="orderBy" class="btn btn-primary" [(ngModel)]="userParams.orderBy" (click)="loadUsers()" btnRadio="lastActive">Last Active</button>
+            <button type="buton" name="orderBy" class="btn btn-primary" [(ngModel)]="userParams.orderBy" (click)="loadUsers()" btnRadio="created">Last Joined</button>
+          </div>
+        </div>
       </form>
       <br>
   <div class="row">

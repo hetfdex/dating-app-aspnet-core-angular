@@ -29,6 +29,7 @@ export class MatchesListComponent implements OnInit {
     this.userParams.gender = this.userGender === 'female' ? 'male' : 'female';
     this.userParams.minAge = 18;
     this.userParams.maxAge = 99;
+    this.userParams.orderBy = 'lastActive';
   }
 
   getUsers() {
