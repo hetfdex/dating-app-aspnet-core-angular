@@ -19,5 +19,11 @@ namespace DatingApp.API.Helpers
                 itemsPerPage = (value > maxItemsPerPage) ? maxItemsPerPage : value;
             }
         }
+
+        public int UserId { get; set; }
+        public int MinAge { get; set; } = 18;
+        public int MaxAge { get; set; } = 99;
+
+        public string Gender { get; set; }
     }
 }

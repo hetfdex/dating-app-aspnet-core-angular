@@ -28,6 +28,8 @@ export class NavComponent implements OnInit {
 
       this.loginForm.reset();
     }, error => {
+      this.loginForm.reset();
+
       this.alertify.error(error);
     }, () => {
       this.router.navigate(['/matches']);
@@ -41,6 +43,7 @@ export class NavComponent implements OnInit {
   logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('userPhotoUrl');
+    localStorage.removeItem('userGender');
 
     this.authService.decodedToken = null;
 

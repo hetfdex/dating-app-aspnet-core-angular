@@ -14,7 +14,7 @@ baseUrl = environment.apiUrl;
 
 constructor(private http: HttpClient) {}
 
-getUsers(currentPage?, itemsPerPage?): Observable<PaginatedResults<User[]>> {
+getUsers(currentPage?, itemsPerPage?, userParams?): Observable<PaginatedResults<User[]>> {
   const paginatedResult: PaginatedResults<User[]> = new PaginatedResults<User[]>();
 
   let params = new HttpParams();
@@ -22,6 +22,12 @@ getUsers(currentPage?, itemsPerPage?): Observable<PaginatedResults<User[]>> {
   if (currentPage != null && itemsPerPage != null) {
     params = params.append('currentPage', currentPage);
     params = params.append('itemsPerPage', itemsPerPage);
+  }
+
+  if (userParams != null) {
+    params = params.append('minAge', userParams.minAge);
+    params = params.append('maxAge', userParams.maxAge);
+    params = params.append('gender', userParams.gender);
   }
   return this.http.get<User[]>(this.baseUrl + 'users', { observe: 'response', params}).pipe(
     map(response => {

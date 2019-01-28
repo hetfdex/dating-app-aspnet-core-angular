@@ -30,6 +30,7 @@ login(model: any) {
       if (user) {
         localStorage.setItem('token', user.token);
         localStorage.setItem('userPhotoUrl', user.userPhotoUrl);
+        localStorage.setItem('userGender', user.userGender);
 
         this.decodedToken = this.jwtHelper.decodeToken(user.token);
 

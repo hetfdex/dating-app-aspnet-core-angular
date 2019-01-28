@@ -84,17 +84,20 @@ namespace DatingApp.API.Controllers
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
-            string userPhotoUrl = string.Empty;
+            var userPhotoUrl = string.Empty;
             
             if (user.Photos.Count > 0)
             {
                 userPhotoUrl = user.Photos.FirstOrDefault(p => p.IsMain).Url;
             }
 
+            var userGender = user.Gender;
+
             return Ok(new
             {
                 token = tokenHandler.WriteToken(token),
-                userPhotoUrl
+                userPhotoUrl,
+                userGender
             });
         }
     }
