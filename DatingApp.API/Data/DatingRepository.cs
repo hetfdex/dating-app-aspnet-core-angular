@@ -38,6 +38,21 @@ namespace DatingApp.API.Data
             return await context.Photos.Where(u => u.UserId == userId).FirstOrDefaultAsync(p => p.IsMain);
         }
 
+        public async Task<Message> GetMessage(int id)
+        {
+            return await context.Messages.FirstOrDefaultAsync(m => m.Id == id);
+        }
+
+        public Task<PagedList<Message>> GetMessages()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<Message>> GetMessageThread(int senderId, int recipientId)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<Photo> GetPhoto(int id)
         {
             return await context.Photos.FirstOrDefaultAsync(p => p.Id == id);
