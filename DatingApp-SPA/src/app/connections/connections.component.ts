@@ -19,7 +19,7 @@ export class ConnectionsComponent implements OnInit {
   likesParam: string;
 
   constructor(private authService: AuthService, private userService: UserService,
-    private route: ActivatedRoute, private altertify: AlertifyService) {}
+    private route: ActivatedRoute, private alertify: AlertifyService) {}
 
   ngOnInit() {
     this.route.data.subscribe(data => {
