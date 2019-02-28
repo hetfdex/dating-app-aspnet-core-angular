@@ -33,6 +33,7 @@ import { PreventUnsavedChangesGuard } from './guards/prevent-unsaved-changes.gua
 import { PhotoEditorComponent } from './matches/photo-editor/photo-editor.component';
 import { ListsResolver } from './resolvers/list.resolver';
 import { MessagesResolver } from './resolvers/messages.resolver';
+import { MatchesMessagesComponent } from './matches/matches-messages/matches-messages.component';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -51,7 +52,8 @@ export function tokenGetter() {
       MatchesDetailsComponent,
       MatchesEditComponent,
       PhotoEditorComponent,
-      TimeAgoPipe
+      TimeAgoPipe,
+      MatchesMessagesComponent
    ],
    imports: [
       BrowserModule,

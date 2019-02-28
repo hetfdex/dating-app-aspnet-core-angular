@@ -1,0 +1,52 @@
+<div class="card">
+  <div class="card-body">
+    <div *ngIf="messages?.length === 0">
+      <p>No Messages</p>
+    </div>
+    <ul class="chat">
+      <li *ngFor="let message of messages">
+        <div *ngIf="message.senderId == recipientId">
+          <span class="chat-img float-left">
+            <img class="rounded-circle" src="{{message.senderPhotoUrl}}" alt="{{message.senderAlias}}">
+          </span>
+          <div class="chat-body">
+            <div class="header">
+              <strong class="primary-font">{{message.senderAlias}}</strong>
+              <small class="text-muted float-right">
+                <span class="fa fa-clock-o">{{message.dateSent | timeAgo}}</span>
+              </small>
+            </div>
+            <p>{{message.content}}</p>
+          </div>
+        </div>
+        <div *ngIf="message.senderId != recipientId">
+            <span class="chat-img float-right">
+              <img class="rounded-circle" src="{{message.senderPhotoUrl}}" alt="{{message.senderAlias}}">
+            </span>
+            <div class="chat-body">
+              <div class="header">
+                  <small class="text-muted">
+                      <span class="fa fa-clock-o">{{message.dateSent | timeAgo}}</span>
+                      <span *ngIf="!message.isRead" class="text-danger">(unread)</span>
+                      <span *ngIf="message.isRead" class="text-success">(read {{message.dateRead | timeAgo}})</span>
+                    </small>
+                <strong class="primary-font float-right">{{message.senderAlias}}</strong>
+
+              </div>
+              <p>{{message.content}}</p>
+            </div>
+          </div>
+      </li>
+    </ul>
+  </div>
+  <div class="card-footer">
+    <form action="">
+      <div class="input-group">
+        <input class="form-control input-sm" type="text" placeholder="Send message">
+        <div class="input-group-append">
+          <button class="btn btn-primary">Send</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

@@ -91,4 +91,8 @@ getMessages(id: number, currentPage?, itemsPerPage?, messageConainter?) {
       return paginatedResult;
     }));
   }
+
+  getMessageThread(senderId: number, recipientId) {
+    return this.http.get<Message[]>(this.baseUrl + 'users/' + senderId + '/messages/thread/' + recipientId);
+  }
 }
