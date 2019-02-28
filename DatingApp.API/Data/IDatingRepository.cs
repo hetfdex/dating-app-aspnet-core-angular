@@ -23,7 +23,7 @@ namespace DatingApp.API.Data
 
         Task<Message> GetMessage(int id);
 
-        Task<PagedList<Message>> GetMessages();
+        Task<PagedList<Message>> GetMessages(MessageParams messageParams);
         
         Task<IEnumerable<Message>> GetMessageThread(int senderId, int recipientId);
     }
