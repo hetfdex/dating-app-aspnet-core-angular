@@ -32,6 +32,7 @@ import { MatchesEditResolver } from './resolvers/matches-edit.resolver';
 import { PreventUnsavedChangesGuard } from './guards/prevent-unsaved-changes.guard';
 import { PhotoEditorComponent } from './matches/photo-editor/photo-editor.component';
 import { ListsResolver } from './resolvers/list.resolver';
+import { MessagesResolver } from './resolvers/messages.resolver';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -84,7 +85,8 @@ export function tokenGetter() {
       MatchesListResolver,
       MatchesEditResolver,
       ListsResolver,
-      PreventUnsavedChangesGuard
+      PreventUnsavedChangesGuard,
+      MessagesResolver
    ],
    bootstrap: [
       AppComponent

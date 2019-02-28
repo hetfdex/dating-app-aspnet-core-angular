@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { User } from '../models/user';
 import { PaginatedResults } from '../models/pagination';
 import { map } from 'rxjs/operators';
+import { Message } from '../models/message';
 
 @Injectable({
   providedIn: 'root'
@@ -42,7 +43,7 @@ getUsers(currentPage?, itemsPerPage?, userParams?, likesParam?): Observable<Pagi
     map(response => {
       paginatedResult.result = response.body;
 
-      if (response.headers.get('Pagination') != null) {
+      if (response.headers.get('Pagination') !== null) {
         paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
       }
       return paginatedResult;
@@ -68,4 +69,26 @@ deletePhoto(userId: number, photoId: number) {
 sendLike(senderId: number, recipientId: number) {
   return this.http.post(this.baseUrl + 'users/' + senderId + '/like/' + recipientId, {});
 }
+
+getMessages(id: number, currentPage?, itemsPerPage?, messageConainter?) {
+  const paginatedResult: PaginatedResults<Message[]> = new PaginatedResults<Message[]>();
+
+  let params = new HttpParams();
+
+  params = params.append('MessageContainer', messageConainter);
+
+  if (currentPage != null && itemsPerPage != null) {
+    params = params.append('currentPage', currentPage);
+    params = params.append('itemsPerPage', itemsPerPage);
+  }
+  return this.http.get<Message[]>(this.baseUrl + 'users/' + id + '/messages', { observe: 'response', params}).pipe(
+    map(response => {
+      paginatedResult.result = response.body;
+
+      if (response.headers.get('Pagination') !== null) {
+        paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
+      }
+      return paginatedResult;
+    }));
+  }
 }

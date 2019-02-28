@@ -11,6 +11,7 @@ import { MatchesEditComponent } from './matches/matches-edit/matches-edit.compon
 import { MatchesEditResolver } from './resolvers/matches-edit.resolver';
 import { PreventUnsavedChangesGuard } from './guards/prevent-unsaved-changes.guard';
 import { ListsResolver } from './resolvers/list.resolver';
+import { MessagesResolver } from './resolvers/messages.resolver';
 
 export const appRoutes: Routes = [
     { path: '', component: HomeComponent },
@@ -20,7 +21,7 @@ export const appRoutes: Routes = [
         canDeactivate: [PreventUnsavedChangesGuard] },
         { path: 'matches/:id', component: MatchesDetailsComponent, resolve: {user: MatchesDetailsResolver} },
         { path: 'connections', component: ConnectionsComponent, resolve: {users: ListsResolver} },
-        { path: 'messages', component: MessagesComponent }
+        { path: 'messages', component: MessagesComponent, resolve: {messages: MessagesResolver} }
     ]},
     { path: '**', redirectTo: '', pathMatch: 'full' }
 ];
