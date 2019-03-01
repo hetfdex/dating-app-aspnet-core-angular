@@ -82,12 +82,14 @@ namespace DatingApp.API.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateMessage(int userId, CreateMessageDto createMessageDto)
         {
-            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+            var sender = await repository.GetUser(userId);
+
+            if (sender.Id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
             {
                 return Unauthorized();
             }
 
-            createMessageDto.SenderId = userId;
+            createMessageDto.SenderId = sender.Id;
 
             var recipient = await repository.GetUser(createMessageDto.RecipientId);
 
@@ -100,13 +102,45 @@ namespace DatingApp.API.Controllers
 
             repository.Add(message);
 
-            var result = mapper.Map<CreateMessageDto>(message);
+            if (await repository.SaveAll())
+            {
+                var result = mapper.Map<GetMessagesDto>(message);
+
+                return CreatedAtRoute("GetMessage", new { id = message.Id}, result);
+            }
+            throw new Exception("Create message fail");
+        }
+
+        [HttpPost("{id}")]
+        public async Task<IActionResult> DeleteMessage(int id, int userId)
+        {
+            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+            {
+                return Unauthorized();
+            }
+
+            var message = await repository.GetMessage(id);
+
+            if (message.SenderId == userId)
+            {
+                message.HasSenderDeleted = true;
+            }
+
+            if (message.RecipientId == userId)
+            {
+                message.HasRecipientDeleted = true;
+            }
+
+            if (message.HasSenderDeleted && message.HasRecipientDeleted)
+            {
+                repository.Delete(message);
+            }
 
             if (await repository.SaveAll())
             {
-                return CreatedAtRoute("GetMessage", new { id = message.Id}, result);
+                return NoContent();
             }
-            throw new Exception($"Create message save fail");
+            throw new Exception("Delete message fail");
         }
     }
 }

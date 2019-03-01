@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { User } from 'src/app/models/user';
 import { UserService } from 'src/app/services/user.service';
 import { AlertifyService } from 'src/app/services/alertify.service';
 import { ActivatedRoute } from '@angular/router';
 import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from 'ngx-gallery';
+import { TabsetComponent } from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-matches-details',
@@ -11,6 +12,8 @@ import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from 'ngx-gal
   styleUrls: ['./matches-details.component.css']
 })
 export class MatchesDetailsComponent implements OnInit {
+  @ViewChild('matchesTabs') matchesTabs: TabsetComponent;
+
   user: User;
 
   galleryOptions: NgxGalleryOptions[];
@@ -21,12 +24,21 @@ export class MatchesDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.getUser();
+    this.getRoute();
     this.setupPhotos();
   }
 
   getUser() {
     this.route.data.subscribe(data => {
       this.user = data['user'];
+    });
+  }
+
+  getRoute() {
+    this.route.queryParams.subscribe(params => {
+      const selectedTab = params['tab'];
+
+      this.matchesTabs.tabs[selectedTab > 0 ? selectedTab : 0].active = true;
     });
   }
 
@@ -56,5 +68,9 @@ export class MatchesDetailsComponent implements OnInit {
       });
     }
     return imageUrls;
+  }
+
+  selectTab(tabId: number) {
+    this.matchesTabs.tabs[tabId].active = true;
   }
 }
