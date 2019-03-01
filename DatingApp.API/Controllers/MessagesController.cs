@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DatingApp.API.Controllers
 {
-    [Authorize]
     [Route("api/users/{userId}/[controller]")]
     [ApiController]
     [ServiceFilter(typeof(LogUserActivity))]
