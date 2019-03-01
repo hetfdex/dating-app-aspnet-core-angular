@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.IO;
-using System.Security.Cryptography;
-using System.Text;
+using System.Linq;
 using DatingApp.API.Models;
+using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
@@ -10,45 +10,29 @@ namespace DatingApp.API.Data
 {
     public class Seed
     {
-        private readonly DataContext context;
+        private readonly UserManager<User> userManager;
 
-        public Seed(DataContext context)
+        public Seed(UserManager<User> userManager)
         {
-            this.context = context;
+            this.userManager = userManager;
         }
 
         public void SeedUsers()
         {
-            var userData = File.ReadAllText("Data/UserSeedData.json");
-
-            var dateTimeFormat = "ddd MMM dd yyyy HH:mm:ss 'GMT'K '(UTC)'";
-
-            var dateTimeConverter = new IsoDateTimeConverter { DateTimeFormat = dateTimeFormat };
-
-            var users = JsonConvert.DeserializeObject<List<User>>(userData, dateTimeConverter);
-
-            foreach (var user in users)
+            if (!userManager.Users.Any())
             {
-                byte[] passwordHash, passwordSalt;
+                var userData = File.ReadAllText("Data/UserSeedData.json");
 
-                CreatePasswordHash("password", out passwordHash, out passwordSalt);
+                var dateTimeFormat = "ddd MMM dd yyyy HH:mm:ss 'GMT'K '(UTC)'";
 
-                // user.PasswordHash = passwordHash;
-                // user.PasswordSalt = passwordSalt;
-                user.UserName = user.UserName.ToLower();
+                var dateTimeConverter = new IsoDateTimeConverter { DateTimeFormat = dateTimeFormat };
 
-                context.Users.Add(user);
-            }
-            context.SaveChanges();
-        }
+                var users = JsonConvert.DeserializeObject<List<User>>(userData, dateTimeConverter);
 
-        private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
-        {
-            using (var hmac = new HMACSHA512())
-            {
-                passwordSalt = hmac.Key;
-
-                passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
+                foreach (var user in users)
+                {
+                    userManager.CreateAsync(user, "password").Wait();
+                }
             }
         }
     }
