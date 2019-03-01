@@ -3,6 +3,7 @@ import { Message } from 'src/app/models/message';
 import { UserService } from 'src/app/services/user.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { AlertifyService } from 'src/app/services/alertify.service';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-matches-messages',
@@ -23,7 +24,17 @@ export class MatchesMessagesComponent implements OnInit {
   }
 
   loadMessages() {
-    this.userService.getMessageThread(this.authService.decodedToken.nameid, this.recipientId).subscribe(messages => {
+    const userId = +this.authService.decodedToken.nameid;
+
+    this.userService.getMessageThread(this.authService.decodedToken.nameid, this.recipientId).pipe(
+      tap(messages => {
+        for (let i = 0; i < messages.length; i++) {
+          if (messages[i].isRead === false && messages[i].recipientId === userId) {
+            this.userService.markMessageAsRead(userId, messages[i].id);
+          }
+        }
+      })
+    ).subscribe(messages => {
       this.messages = messages;
     }, error => {
       this.alertify.error(error);

@@ -100,7 +100,11 @@ getMessages(id: number, currentPage?, itemsPerPage?, messageConainter?) {
     return this.http.post(this.baseUrl + 'users/' + id + '/messages', message);
   }
 
-  deleteMessage(id: number, userId: number) {
+  deleteMessage(userId: number, id: number) {
     return this.http.post(this.baseUrl + 'users/' + userId + '/messages/' + id, {});
+  }
+
+  markMessageAsRead(userId: number, id: number) {
+    return this.http.post(this.baseUrl + 'users/' + userId + '/messages/' + id + '/read/', {}).subscribe();
   }
 }
