@@ -1,16 +1,16 @@
 using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
-using DatingApp.API.Data;
 using DatingApp.API.Dto;
 using DatingApp.API.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
@@ -21,52 +21,72 @@ namespace DatingApp.API.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly IAuthRepository repository;
-
         private readonly IConfiguration configuration;
 
         private readonly IMapper mapper;
 
-        public AuthController(IAuthRepository repository, IConfiguration configuration, IMapper mapper)
+        private readonly UserManager<User> userManager;
+
+        private readonly SignInManager<User> signInManager;
+
+        public AuthController(IConfiguration configuration, IMapper mapper, UserManager<User> userManager, SignInManager<User> signInManager)
         {
+            this.signInManager = signInManager;
+            this.userManager = userManager;
             this.mapper = mapper;
-            this.repository = repository;
             this.configuration = configuration;
         }
 
         [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterUserDto registerUserDto)
         {
-            registerUserDto.Username = registerUserDto.Username.ToLower();
-
-            if (await repository.UserExists(registerUserDto.Username))
-            {
-                return BadRequest("Username already exists");
-            }
-
-            Console.WriteLine(registerUserDto.Username + registerUserDto.City);
-            
             var user = mapper.Map<User>(registerUserDto);
 
-            var registeredUser = await repository.Register(user, registerUserDto.Password);
+            var registeredUser = await userManager.CreateAsync(user, registerUserDto.Password);
 
-            var result = mapper.Map<GetUserDto>(registeredUser);
+            var result = mapper.Map<GetUserDto>(user);
 
-            return CreatedAtRoute("GetUser", new {controller = "Users", id = registeredUser.Id}, result);
+            if (registeredUser.Succeeded)
+            {
+                return CreatedAtRoute("GetUser", new { controller = "Users", id = user.Id }, result);
+            }
+            return BadRequest(registeredUser.Errors);
         }
 
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginUserDto loginUserDto)
         {
-            var user = await repository.Login(loginUserDto.Username.ToLower(), loginUserDto.Password);
+            var user = await userManager.FindByNameAsync(loginUserDto.Username);
 
-            if (user == null)
+            var result = await signInManager.CheckPasswordSignInAsync(user, loginUserDto.Password, false);
+
+            if (result.Succeeded)
             {
-                return Unauthorized();
+                var userPhotoUrl = string.Empty;
+
+                var loggedInUser = await userManager.Users.Include(p => p.Photos).FirstOrDefaultAsync(u => u.NormalizedUserName == loginUserDto.Username.ToUpper());
+
+                if (loggedInUser.Photos.Count > 0)
+                {
+                    userPhotoUrl = loggedInUser.Photos.FirstOrDefault(p => p.IsMain).Url;
+                }
+
+                var userGender = loggedInUser.Gender;
+
+                return Ok(new
+                {
+                    token = GenerateJwtToken(user),
+                    userPhotoUrl,
+                    userGender
+                });
             }
+            return Unauthorized();
+        }
 
+        private string GenerateJwtToken(User user)
+        {
             var claims = new[]
-            {
+           {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.UserName.ToString()),
             };
@@ -86,21 +106,7 @@ namespace DatingApp.API.Controllers
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
-            var userPhotoUrl = string.Empty;
-            
-            if (user.Photos.Count > 0)
-            {
-                userPhotoUrl = user.Photos.FirstOrDefault(p => p.IsMain).Url;
-            }
-
-            var userGender = user.Gender;
-
-            return Ok(new
-            {
-                token = tokenHandler.WriteToken(token),
-                userPhotoUrl,
-                userGender
-            });
+            return tokenHandler.WriteToken(token);
         }
     }
 }
