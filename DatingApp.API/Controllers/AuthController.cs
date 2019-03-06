@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -43,11 +44,11 @@ namespace DatingApp.API.Controllers
             var user = mapper.Map<User>(registerUserDto);
 
             var registeredUser = await userManager.CreateAsync(user, registerUserDto.Password);
-
-            var result = mapper.Map<GetUserDto>(user);
-
+            
             if (registeredUser.Succeeded)
             {
+                var result = mapper.Map<GetUserDto>(user);
+
                 return CreatedAtRoute("GetUser", new { controller = "Users", id = user.Id }, result);
             }
             return BadRequest(registeredUser.Errors);
@@ -83,13 +84,20 @@ namespace DatingApp.API.Controllers
             return Unauthorized();
         }
 
-        private string GenerateJwtToken(User user)
+        private async Task<string> GenerateJwtToken(User user)
         {
-            var claims = new[]
+            var claims = new List<Claim>
            {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.UserName.ToString()),
             };
+
+            var roles = await userManager.GetRolesAsync(user);
+
+            foreach (var role in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetSection("AppSettings:Token").Value));
 

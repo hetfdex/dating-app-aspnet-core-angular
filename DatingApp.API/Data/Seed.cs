@@ -12,8 +12,11 @@ namespace DatingApp.API.Data
     {
         private readonly UserManager<User> userManager;
 
-        public Seed(UserManager<User> userManager)
+        private readonly RoleManager<Role> roleManager;
+
+        public Seed(UserManager<User> userManager, RoleManager<Role> roleManager)
         {
+            this.roleManager = roleManager;
             this.userManager = userManager;
         }
 
@@ -29,9 +32,38 @@ namespace DatingApp.API.Data
 
                 var users = JsonConvert.DeserializeObject<List<User>>(userData, dateTimeConverter);
 
+                var roles = new List<Role>
+                {
+                    new Role { Name = "Member"},
+                    new Role { Name = "Admin"},
+                    new Role { Name = "Moderator"},
+                    new Role { Name = "VIP"}
+                };
+
+                foreach (var role in roles)
+                {
+                    roleManager.CreateAsync(role).Wait();
+                }
+
                 foreach (var user in users)
                 {
                     userManager.CreateAsync(user, "password").Wait();
+
+                    userManager.AddToRoleAsync(user, "Member").Wait();
+                }
+
+                var admin = new User
+                {
+                    UserName = "Admin"
+                };
+
+                var result = userManager.CreateAsync(admin, "password").Result;
+
+                if (result.Succeeded)
+                {
+                    var userAdmin = userManager.FindByNameAsync("Admin").Result;
+
+                    userManager.AddToRolesAsync(admin, new[] { "Admin", "Moderator" }).Wait();
                 }
             }
         }
