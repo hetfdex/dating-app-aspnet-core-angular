@@ -53,4 +53,19 @@ loggedIn() {
 updatePhoto(photoUrl: string) {
   this.photoUrl.next(photoUrl);
 }
+
+roleMatch(allowedRoles): boolean {
+  let isMatch = false;
+
+  const userRoles = this.decodedToken.role as Array<string>;
+
+  allowedRoles.forEach(element => {
+    if (userRoles.includes(element)) {
+      isMatch = true;
+
+      return;
+    }
+  });
+  return isMatch;
+}
 }

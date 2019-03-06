@@ -34,6 +34,8 @@ import { PhotoEditorComponent } from './matches/photo-editor/photo-editor.compon
 import { ListsResolver } from './resolvers/list.resolver';
 import { MessagesResolver } from './resolvers/messages.resolver';
 import { MatchesMessagesComponent } from './matches/matches-messages/matches-messages.component';
+import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
+import { HasRoleDirective } from './directives/hasRole.directive';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -53,7 +55,9 @@ export function tokenGetter() {
       MatchesEditComponent,
       PhotoEditorComponent,
       TimeAgoPipe,
-      MatchesMessagesComponent
+      MatchesMessagesComponent,
+      AdminPanelComponent,
+      HasRoleDirective
    ],
    imports: [
       BrowserModule,

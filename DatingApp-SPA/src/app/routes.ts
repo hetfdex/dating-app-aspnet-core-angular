@@ -12,6 +12,7 @@ import { MatchesEditResolver } from './resolvers/matches-edit.resolver';
 import { PreventUnsavedChangesGuard } from './guards/prevent-unsaved-changes.guard';
 import { ListsResolver } from './resolvers/list.resolver';
 import { MessagesResolver } from './resolvers/messages.resolver';
+import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
 
 export const appRoutes: Routes = [
     { path: '', component: HomeComponent },
@@ -21,7 +22,8 @@ export const appRoutes: Routes = [
         canDeactivate: [PreventUnsavedChangesGuard] },
         { path: 'matches/:id', component: MatchesDetailsComponent, resolve: {user: MatchesDetailsResolver} },
         { path: 'connections', component: ConnectionsComponent, resolve: {users: ListsResolver} },
-        { path: 'messages', component: MessagesComponent, resolve: {messages: MessagesResolver} }
+        { path: 'messages', component: MessagesComponent, resolve: {messages: MessagesResolver} },
+        { path: 'admin', component: AdminPanelComponent, data: {roles: ['Admin', 'Moderator']} }
     ]},
     { path: '**', redirectTo: '', pathMatch: 'full' }
 ];
