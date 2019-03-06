@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DatingApp.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190301164026_IdentityInitial")]
-    partial class IdentityInitial
+    [Migration("20190306170428_DatingAppDb")]
+    partial class DatingAppDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -69,6 +69,8 @@ namespace DatingApp.API.Migrations
                     b.Property<DateTime>("Added");
 
                     b.Property<string>("Description");
+
+                    b.Property<bool>("IsApproved");
 
                     b.Property<bool>("IsMain");
 
@@ -287,7 +289,7 @@ namespace DatingApp.API.Migrations
 
             modelBuilder.Entity("DatingApp.API.Models.Photo", b =>
                 {
-                    b.HasOne("DatingApp.API.Models.User", "user")
+                    b.HasOne("DatingApp.API.Models.User", "User")
                         .WithMany("Photos")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);

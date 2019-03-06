@@ -68,6 +68,8 @@ namespace DatingApp.API.Migrations
 
                     b.Property<string>("Description");
 
+                    b.Property<bool>("IsApproved");
+
                     b.Property<bool>("IsMain");
 
                     b.Property<string>("PublicId");
@@ -285,7 +287,7 @@ namespace DatingApp.API.Migrations
 
             modelBuilder.Entity("DatingApp.API.Models.Photo", b =>
                 {
-                    b.HasOne("DatingApp.API.Models.User", "user")
+                    b.HasOne("DatingApp.API.Models.User", "User")
                         .WithMany("Photos")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);

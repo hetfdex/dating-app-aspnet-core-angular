@@ -31,7 +31,7 @@ namespace DatingApp.API.Controllers
         {
             var currentUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-            var currentUser = await repository.GetUser(currentUserId);
+            var currentUser = await repository.GetUser(currentUserId, true);
 
             userParams.UserId = currentUserId;
 
@@ -52,7 +52,9 @@ namespace DatingApp.API.Controllers
         [HttpGet("{id}", Name = "GetUser")]
         public async Task<IActionResult> GetUser(int id)
         {
-            var user = await repository.GetUser(id);
+            var isCurrentUser = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value) == id;
+            
+            var user = await repository.GetUser(id, isCurrentUser);
 
             var result = mapper.Map<GetUserDto>(user);
 
@@ -66,7 +68,7 @@ namespace DatingApp.API.Controllers
             {
                 return Unauthorized();
             }
-            var user = await repository.GetUser(id);
+            var user = await repository.GetUser(id, true);
 
             var result = mapper.Map(updateUserDto, user);
 
@@ -91,7 +93,7 @@ namespace DatingApp.API.Controllers
                 return BadRequest("User already liked");
             }
 
-            if (await repository.GetUser(recipientId) == null)
+            if (await repository.GetUser(recipientId, false) == null)
             {
                 return NotFound();
             }

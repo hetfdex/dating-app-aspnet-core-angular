@@ -52,7 +52,8 @@ export class PhotoEditorComponent implements OnInit {
           url: result.url,
           added: result.added,
           description: result.description,
-          isMain: result.isMain
+          isMain: result.isMain,
+          isApproved: result.isApproved
         };
 
         if (photo.isMain) {

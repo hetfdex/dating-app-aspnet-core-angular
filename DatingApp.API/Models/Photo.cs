@@ -11,10 +11,11 @@ namespace DatingApp.API.Models
         public string Description { get; set; }
 
         public bool IsMain { get; set; }
+        public bool IsApproved { get; set; }
 
         public DateTime Added { get; set; }
 
-        public User user { get; set; }
+        public User User { get; set; }
 
         public int UserId { get; set; }
     }
