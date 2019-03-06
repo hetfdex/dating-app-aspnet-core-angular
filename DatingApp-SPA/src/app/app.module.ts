@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
-import { BsDropdownModule, TabsModule, BsDatepickerModule, PaginationModule, ButtonsModule } from 'ngx-bootstrap';
+import { BsDropdownModule, TabsModule, BsDatepickerModule, PaginationModule, ButtonsModule, ModalModule } from 'ngx-bootstrap';
 import { NgxGalleryModule } from 'ngx-gallery';
 import { FileUploadModule } from 'ng2-file-upload';
 import {TimeAgoPipe} from 'time-ago-pipe';
@@ -39,6 +39,7 @@ import { HasRoleDirective } from './directives/hasRole.directive';
 import { UserManagementComponent } from './admin/user-management/user-management.component';
 import { PhotoManagementComponent } from './admin/photo-management/photo-management.component';
 import { AdminService } from './services/admin.service';
+import { RolesModalComponent } from './admin/roles-modal/roles-modal.component';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -62,7 +63,8 @@ export function tokenGetter() {
       AdminPanelComponent,
       HasRoleDirective,
       UserManagementComponent,
-      PhotoManagementComponent
+      PhotoManagementComponent,
+      RolesModalComponent
    ],
    imports: [
       BrowserModule,
@@ -78,6 +80,7 @@ export function tokenGetter() {
       NgxGalleryModule,
       FileUploadModule,
       BsDatepickerModule.forRoot(),
+      ModalModule.forRoot(),
       JwtModule.forRoot({
          config: {
             tokenGetter: tokenGetter,
@@ -102,6 +105,9 @@ export function tokenGetter() {
    ],
    bootstrap: [
       AppComponent
+   ],
+   entryComponents: [
+      RolesModalComponent
    ]
 })
 export class AppModule { }
